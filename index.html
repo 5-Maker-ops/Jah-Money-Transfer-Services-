@@ -1,941 +1,819 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Jah Global Money Transfer Services</title>
+<title>Jah Global Money Transfer</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+:root {
+  --navy: #071b33;
+  --green: #10a568;
+  --green-dark: #078653;
+  --gold: #f5c451;
+  --white: #fff;
+  --light: #f5f8fb;
+  --text: #172536;
+  --muted: #6c7a89;
+  --border: #e2e8ef;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f8f6;
-            color: #17231d;
-            line-height: 1.6;
-        }
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background: var(--light);
+  line-height: 1.6;
+}
 
-        /* NAVIGATION */
+/* NAVIGATION */
+nav {
+  background: var(--navy);
+  color: white;
+  padding: 18px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 
-        header {
-            background: #071b12;
-            color: white;
-            padding: 15px 20px;
-        }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 800;
+}
 
-        .nav {
-            max-width: 1100px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  background: var(--green);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+.nav-links {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
 
-        .brand img {
-            width: 55px;
-            height: 55px;
-            object-fit: contain;
-            border-radius: 10px;
-            background: white;
-        }
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
 
-        .brand-name {
-            font-size: 20px;
-            font-weight: bold;
-        }
+.nav-links a:hover {
+  color: var(--gold);
+}
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 18px;
-        }
+.nav-button {
+  background: var(--green);
+  padding: 10px 18px;
+  border-radius: 8px;
+}
 
-        /* HERO */
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #071b33, #0d2948);
+  color: white;
+  padding: 90px 6% 100px;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 50px;
+  align-items: center;
+}
 
-        .hero {
-            background: linear-gradient(135deg, #071b12, #087653);
-            color: white;
-            text-align: center;
-            padding: 80px 20px;
-        }
+.hero h1 {
+  font-size: clamp(42px, 6vw, 70px);
+  line-height: 1.05;
+  margin-bottom: 22px;
+}
 
-        .hero h1 {
-            font-size: 42px;
-            margin-bottom: 15px;
-        }
+.hero h1 span {
+  color: var(--green);
+}
 
-        .hero p {
-            font-size: 19px;
-            max-width: 650px;
-            margin: auto;
-        }
+.hero p {
+  color: #d3deea;
+  font-size: 18px;
+  max-width: 600px;
+  margin-bottom: 30px;
+}
 
-        .hero-button {
-            display: inline-block;
-            margin-top: 28px;
-            padding: 14px 25px;
-            background: white;
-            color: #071b12;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-        }
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
 
-        /* GENERAL */
+.btn {
+  display: inline-block;
+  padding: 14px 24px;
+  border-radius: 9px;
+  text-decoration: none;
+  font-weight: 700;
+}
 
-        section {
-            max-width: 1050px;
-            margin: auto;
-            padding: 60px 20px;
-        }
+.btn-green {
+  background: var(--green);
+  color: white;
+}
 
-        .title {
-            text-align: center;
-            font-size: 32px;
-            margin-bottom: 30px;
-        }
+.btn-green:hover {
+  background: var(--green-dark);
+}
 
-        /* RATE */
+.btn-outline {
+  border: 1px solid #7890a8;
+  color: white;
+}
 
-        .rate-card {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 35px 25px;
-            border-radius: 16px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
-        }
+/* CONVERTER */
+.converter-card {
+  background: white;
+  color: var(--text);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 25px 60px rgba(0,0,0,.25);
+}
 
-        .rate-text {
-            font-size: 30px;
-            font-weight: bold;
-            color: #087653;
-            margin: 15px 0;
-        }
+.converter-card h2 {
+  margin-bottom: 6px;
+  font-size: 25px;
+}
 
-        .updated {
-            color: #777;
-            font-size: 14px;
-        }
+.converter-subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 25px;
+}
 
-        /* CALCULATOR */
+.rate {
+  background: #eaf8f2;
+  color: var(--green-dark);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-        .calculator {
-            max-width: 600px;
-            margin: 30px auto 0;
-            background: white;
-            padding: 30px 25px;
-            border-radius: 16px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
-        }
+.field {
+  margin-bottom: 16px;
+}
 
-        .calculator h3 {
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
+.field label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
+.input-wrapper {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+}
 
-        input {
-            width: 100%;
-            padding: 14px;
-            font-size: 16px;
-            border: 1px solid #ccd5cf;
-            border-radius: 8px;
-            margin-bottom: 18px;
-        }
+.currency {
+  background: #f0f3f6;
+  padding: 14px;
+  font-weight: bold;
+  min-width: 58px;
+  text-align: center;
+}
 
-        .result {
-            background: #eaf7f0;
-            padding: 18px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-        }
+.input-wrapper input {
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+}
 
-        /* SERVICES */
+.swap {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  background: var(--navy);
+  color: white;
+  display: block;
+  margin: 4px auto 12px;
+  cursor: pointer;
+  font-size: 20px;
+}
 
-        .services {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
+.swap:hover {
+  background: var(--green);
+}
 
-        .service {
-            background: white;
-            padding: 25px;
-            border-radius: 14px;
-            box-shadow: 0 5px 18px rgba(0,0,0,0.06);
-        }
+.conversion-note {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 14px;
+}
 
-        .service h3 {
-            color: #087653;
-            margin-bottom: 10px;
-        }
+/* STATS */
+.stats {
+  background: white;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 30px 6%;
+  box-shadow: 0 5px 20px rgba(0,0,0,.04);
+}
 
-        /* CONTACT */
+.stat {
+  text-align: center;
+  padding: 10px;
+}
 
-        .contact {
-            background: #071b12;
-            color: white;
-            max-width: none;
-            text-align: center;
-        }
+.stat strong {
+  display: block;
+  font-size: 28px;
+  color: var(--navy);
+}
 
-        .contact a {
-            color: white;
-        }
+.stat span {
+  color: var(--muted);
+}
 
-        .whatsapp {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 13px 22px;
-            background: #25D366;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-        }
+/* SECTIONS */
+section {
+  padding: 80px 6%;
+}
 
-        /* ADMIN */
+.section-title {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 50px;
+}
 
-        .admin-section {
-            background: #eaf0ec;
-            max-width: none;
-        }
+.section-title h2 {
+  font-size: 38px;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
 
-        .admin-box {
-            max-width: 550px;
-            margin: auto;
-            background: white;
-            padding: 25px;
-            border-radius: 14px;
-        }
+.section-title p {
+  color: var(--muted);
+}
 
-        .admin-button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            background: #087653;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 12px;
-        }
+/* SERVICES */
+.services {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
 
-        .logout {
-            background: #333;
-        }
+.service {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  border: 1px solid var(--border);
+  transition: .25s;
+}
 
-        #adminPanel {
-            display: none;
-        }
+.service:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,.08);
+}
 
-        .message {
-            margin-top: 10px;
-            font-weight: bold;
-        }
+.service-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 12px;
+  background: #eaf8f2;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 20px;
+}
 
-        /* FOOTER */
+.service h3 {
+  margin-bottom: 10px;
+  color: var(--navy);
+}
 
-        footer {
-            background: #03100a;
-            color: #aaa;
-            text-align: center;
-            padding: 20px;
-        }
+.service p {
+  color: var(--muted);
+}
 
-        /* MOBILE */
+/* HOW IT WORKS */
+.how {
+  background: var(--navy);
+  color: white;
+}
 
-        @media (max-width: 750px) {
+.how .section-title h2 {
+  color: white;
+}
 
-            .nav {
-                flex-direction: column;
-            }
+.how .section-title p {
+  color: #b8c8d8;
+}
 
-            nav a {
-                margin: 0 8px;
-            }
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
 
-            .hero h1 {
-                font-size: 34px;
-            }
+.step {
+  text-align: center;
+}
 
-            .services {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+.step-number {
+  width: 55px;
+  height: 55px;
+  background: var(--green);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 18px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.step h3 {
+  margin-bottom: 8px;
+}
+
+.step p {
+  color: #b8c8d8;
+}
+
+/* CONTACT */
+.contact-box {
+  background: white;
+  max-width: 850px;
+  margin: auto;
+  padding: 45px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.07);
+  text-align: center;
+}
+
+.contact-box h2 {
+  color: var(--navy);
+  font-size: 34px;
+  margin-bottom: 10px;
+}
+
+.contact-box p {
+  color: var(--muted);
+  margin-bottom: 25px;
+}
+
+.contact-info {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+
+.contact-info div {
+  font-weight: bold;
+}
+
+/* FOOTER */
+footer {
+  background: #041426;
+  color: #aebdcb;
+  padding: 35px 6%;
+  text-align: center;
+}
+
+footer strong {
+  color: white;
+}
+
+/* MOBILE */
+@media (max-width: 800px) {
+
+  .nav-links {
+    display: none;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 60px;
+  }
+
+  .services,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  section {
+    padding: 60px 5%;
+  }
+
+  .converter-card {
+    padding: 22px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-<!-- HEADER -->
+<!-- NAVIGATION -->
+<nav>
 
-<header>
+  <div class="logo">
+    <div class="logo-icon">↔</div>
+    <span>Jah Global</span>
+  </div>
 
-    <div class="nav">
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#services">Services</a>
+    <a href="#how">How It Works</a>
+    <a href="#contact">Contact</a>
+    <a href="#converter" class="nav-button">Send Money</a>
+  </div>
 
-        <div class="brand">
+</nav>
 
-            <img src="logo.jpg"
-                 alt="Jah Global Money Transfer Services Logo">
 
-            <div class="brand-name">
-                Jah Global Money Transfer Services
-            </div>
+<!-- HERO -->
+<header class="hero" id="home">
 
-        </div>
+  <div>
 
-        <nav>
-            <a href="#rate">Rate</a>
-            <a href="#services">Services</a>
-            <a href="#contact">Contact</a>
-        </nav>
+    <h1>
+      Send Money.<br>
+      <span>Stay Connected.</span>
+    </h1>
+
+    <p>
+      Fast, simple and reliable money transfers with
+      Jah Global Money Transfer. Send money across
+      borders with confidence.
+    </p>
+
+    <div class="hero-buttons">
+
+      <a href="#converter" class="btn btn-green">
+        Calculate Transfer
+      </a>
+
+      <a href="#contact" class="btn btn-outline">
+        Contact Us
+      </a>
 
     </div>
+
+  </div>
+
+
+  <!-- CURRENCY CONVERTER -->
+  <div class="converter-card" id="converter">
+
+    <h2>Currency Converter</h2>
+
+    <p class="converter-subtitle">
+      Calculate your transfer instantly
+    </p>
+
+    <div class="rate">
+      Exchange Rate: $1 USD = D75 GMD
+    </div>
+
+    <div class="field">
+
+      <label>US Dollars</label>
+
+      <div class="input-wrapper">
+
+        <div class="currency">$</div>
+
+        <input
+          type="number"
+          id="usd"
+          placeholder="Enter USD"
+          min="0"
+          step="0.01"
+        >
+
+      </div>
+
+    </div>
+
+
+    <button class="swap" onclick="clearConverter()">
+      ⇅
+    </button>
+
+
+    <div class="field">
+
+      <label>Gambian Dalasi</label>
+
+      <div class="input-wrapper">
+
+        <div class="currency">D</div>
+
+        <input
+          type="number"
+          id="gmd"
+          placeholder="Enter GMD"
+          min="0"
+          step="0.01"
+        >
+
+      </div>
+
+    </div>
+
+
+    <p class="conversion-note">
+      Example rate: $1 USD = D75 GMD
+    </p>
+
+  </div>
 
 </header>
 
 
-<!-- HERO -->
+<!-- STATS -->
+<div class="stats">
 
-<div class="hero">
+  <div class="stat">
+    <strong>75 GMD</strong>
+    <span>Example rate per USD</span>
+  </div>
 
-    <h1>
-        Jah Global Money Transfer Services
-    </h1>
+  <div class="stat">
+    <strong>24/7</strong>
+    <span>Online access</span>
+  </div>
 
-    <p>
-        Fast, convenient and reliable money transfer services.
-    </p>
-
-    <a href="#rate" class="hero-button">
-        Check Exchange Rate
-    </a>
+  <div class="stat">
+    <strong>Global</strong>
+    <span>Money transfer service</span>
+  </div>
 
 </div>
 
 
-<!-- EXCHANGE RATE -->
-
-<section id="rate">
-
-    <h2 class="title">
-        Today's Exchange Rate
-    </h2>
-
-    <div class="rate-card">
-
-        <p>
-            Current USD to Gambian Dalasi rate
-        </p>
-
-        <div class="rate-text">
-            1 USD =
-            <span id="currentRate">Loading...</span>
-            GMD
-        </div>
-
-        <p class="updated" id="updated">
-            Loading latest rate...
-        </p>
-
-    </div>
-
-
-    <!-- CALCULATOR -->
-
-    <div class="calculator">
-
-        <h3>
-            USD → GMD Calculator
-        </h3>
-
-        <label for="usd">
-            Enter USD amount
-        </label>
-
-        <input
-            type="number"
-            id="usd"
-            placeholder="Example: 100"
-            min="0"
-            step="0.01"
-        >
-
-        <div class="result">
-
-            You receive:
-            <span id="gmd">0.00</span>
-            GMD
-
-        </div>
-
-    </div>
-
-</section>
-
-
 <!-- SERVICES -->
-
 <section id="services">
 
-    <h2 class="title">
-        Our Services
-    </h2>
+  <div class="section-title">
 
-    <div class="services">
+    <h2>Our Services</h2>
 
-        <div class="service">
+    <p>
+      Simple money transfer solutions designed to
+      help you move money wherever you need it.
+    </p>
 
-            <h3>Money Transfer</h3>
-
-            <p>
-                Convenient money transfer services
-                for your needs.
-            </p>
-
-        </div>
+  </div>
 
 
-        <div class="service">
+  <div class="services">
 
-            <h3>Currency Exchange</h3>
+    <div class="service">
 
-            <p>
-                Check our latest USD to GMD
-                exchange rate.
-            </p>
+      <div class="service-icon">💸</div>
 
-        </div>
+      <h3>Money Transfers</h3>
 
-
-        <div class="service">
-
-            <h3>Customer Support</h3>
-
-            <p>
-                Contact us directly whenever
-                you need assistance.
-            </p>
-
-        </div>
+      <p>
+        Send money internationally with a simple,
+        straightforward transfer process.
+      </p>
 
     </div>
+
+
+    <div class="service">
+
+      <div class="service-icon">💱</div>
+
+      <h3>Currency Exchange</h3>
+
+      <p>
+        Check currency conversions instantly before
+        making your transfer.
+      </p>
+
+    </div>
+
+
+    <div class="service">
+
+      <div class="service-icon">🔒</div>
+
+      <h3>Secure Transfers</h3>
+
+      <p>
+        We focus on making the transfer experience
+        clear, convenient and secure.
+      </p>
+
+    </div>
+
+  </div>
 
 </section>
 
 
 <!-- HOW IT WORKS -->
+<section class="how" id="how">
 
-<section>
+  <div class="section-title">
 
-    <h2 class="title">
-        How It Works
-    </h2>
+    <h2>How It Works</h2>
 
-    <div class="services">
+    <p>
+      Sending money can be simple.
+    </p>
 
-        <div class="service">
-
-            <h3>1. Contact Us</h3>
-
-            <p>
-                Contact Jah Global Money Transfer
-                Services.
-            </p>
-
-        </div>
+  </div>
 
 
-        <div class="service">
+  <div class="steps">
 
-            <h3>2. Confirm Details</h3>
+    <div class="step">
 
-            <p>
-                Confirm the amount and current
-                exchange rate.
-            </p>
+      <div class="step-number">1</div>
 
-        </div>
+      <h3>Enter Amount</h3>
 
-
-        <div class="service">
-
-            <h3>3. Complete Your Transfer</h3>
-
-            <p>
-                Follow the instructions provided
-                by our team.
-            </p>
-
-        </div>
+      <p>
+        Enter the amount you want to send
+        using our currency converter.
+      </p>
 
     </div>
+
+
+    <div class="step">
+
+      <div class="step-number">2</div>
+
+      <h3>Confirm Details</h3>
+
+      <p>
+        Review the exchange amount and
+        transfer information.
+      </p>
+
+    </div>
+
+
+    <div class="step">
+
+      <div class="step-number">3</div>
+
+      <h3>Send Money</h3>
+
+      <p>
+        Complete your transfer through
+        Jah Global Money Transfer.
+      </p>
+
+    </div>
+
+  </div>
 
 </section>
 
 
 <!-- CONTACT -->
+<section id="contact">
 
-<section class="contact" id="contact">
+  <div class="contact-box">
 
-    <h2>
-        Contact Jah Global
-    </h2>
-
-    <br>
+    <h2>Ready to Send Money?</h2>
 
     <p>
-        Phone:
-        <a href="tel:+220833108349">
-            +220 833108349
-        </a>
+      Contact Jah Global Money Transfer for
+      transfer information and assistance.
     </p>
 
     <a
-        class="whatsapp"
-        href="https://wa.me/220833108349"
-        target="_blank"
+      href="mailto:info@jahglobal.com"
+      class="btn btn-green"
     >
-        WhatsApp Us
+      Contact Jah Global
     </a>
 
-</section>
+    <div class="contact-info">
 
+      <div>📞 +220 823108349</div>
+        <p>
+    WhatsApp:
+    <a href="https://wa.me/220833108349" target="_blank">
+        Chat with us on WhatsApp
+    </a>
+        </p>
 
-<!-- ADMIN -->
-
-<section class="admin-section">
-
-    <h2 class="title">
-        Admin
-    </h2>
-
-    <div class="admin-box">
-
-        <!-- LOGIN -->
-
-        <div id="loginBox">
-
-            <h3>
-                Admin Login
-            </h3>
-
-            <br>
-
-            <label>
-                Email
-            </label>
-
-            <input
-                type="email"
-                id="email"
-                placeholder="Admin email"
-            >
-
-            <label>
-                Password
-            </label>
-
-            <input
-                type="password"
-                id="password"
-                placeholder="Password"
-            >
-
-            <button
-                class="admin-button"
-                onclick="login()"
-            >
-                Login
-            </button>
-
-            <p
-                class="message"
-                id="loginMessage"
-            ></p>
-
-        </div>
-
-
-        <!-- ADMIN PANEL -->
-
-        <div id="adminPanel">
-
-            <h3>
-                Exchange Rate Manager
-            </h3>
-
-            <br>
-
-            <p>
-                Current rate:
-                <strong>
-                    <span id="adminRate">Loading...</span>
-                    GMD
-                </strong>
-                per USD
-            </p>
-
-            <br>
-
-            <label>
-                New USD → GMD Rate
-            </label>
-
-            <input
-                type="number"
-                id="newRate"
-                placeholder="Example: 75.50"
-                min="0"
-                step="0.01"
-            >
-
-            <button
-                class="admin-button"
-                onclick="changeRate()"
-            >
-                Update Exchange Rate
-            </button>
-
-            <button
-                class="admin-button logout"
-                onclick="logout()"
-            >
-                Logout
-            </button>
-
-            <p
-                class="message"
-                id="adminMessage"
-            ></p>
-
-        </div>
+      <div>📧 info@jahglobal.com</div>
 
     </div>
+
+  </div>
 
 </section>
 
 
 <!-- FOOTER -->
-
 <footer>
 
-    © 2026 Jah Global Money Transfer Services.
+  <p>
+    © 2026 <strong>Jah Global Money Transfer</strong>.
     All rights reserved.
+  </p>
+
+  <p style="margin-top:8px;font-size:13px;">
+    Exchange rate displayed: $1 USD = D75 GMD
+  </p>
 
 </footer>
 
 
+<!-- CONVERTER SCRIPT -->
 <script>
 
-    /*
-    ==========================================
-    SUPABASE CONNECTION
-    ==========================================
-    */
+const RATE = 75;
 
-    const SUPABASE_URL =
-        "https:https://qqxnmaqxyfbusibbjawe.supabase.co/rest/v1/";
+const usd = document.getElementById("usd");
+const gmd = document.getElementById("gmd");
 
-    const SUPABASE_ANON_KEY =
-        "sb_publishable__g1e_4XQrG8LzzssW0gDIA_v1lweBLq";
 
+// USD → GMD
+usd.addEventListener("input", function() {
 
-    const sb =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_ANON_KEY
-        );
+  if (this.value === "") {
+    gmd.value = "";
+    return;
+  }
 
+  const amount = parseFloat(this.value);
 
-    let rate = 75;
+  if (!isNaN(amount)) {
+    gmd.value = (amount * RATE).toFixed(2);
+  }
 
+});
 
-    /*
-    ==========================================
-    LOAD EXCHANGE RATE
-    ==========================================
-    */
 
-    async function loadRate() {
+// GMD → USD
+gmd.addEventListener("input", function() {
 
-        const { data, error } = await sb
-            .from("exchange_rates")
-            .select("usd_to_gmd, updated_at")
-            .eq("id", 1)
-            .single();
+  if (this.value === "") {
+    usd.value = "";
+    return;
+  }
 
+  const amount = parseFloat(this.value);
 
-        if (error) {
+  if (!isNaN(amount)) {
+    usd.value = (amount / RATE).toFixed(2);
+  }
 
-            console.log(error);
+});
 
-            document.getElementById("currentRate")
-                .textContent = "Unavailable";
 
-            document.getElementById("updated")
-                .textContent =
-                "Please contact us for today's rate.";
-
-            return;
-        }
-
-
-        rate = Number(data.usd_to_gmd);
-
-
-        document.getElementById("currentRate")
-            .textContent =
-            rate.toFixed(2);
-
-
-        document.getElementById("adminRate")
-            .textContent =
-            rate.toFixed(2);
-
-
-        if (data.updated_at) {
-
-            const date =
-                new Date(data.updated_at);
-
-            document.getElementById("updated")
-                .textContent =
-                "Last updated: " +
-                date.toLocaleString();
-
-        }
-
-
-        calculate();
-    }
-
-
-    /*
-    ==========================================
-    CALCULATOR
-    ==========================================
-    */
-
-    document
-        .getElementById("usd")
-        .addEventListener(
-            "input",
-            calculate
-        );
-
-
-    function calculate() {
-
-        const usd =
-            Number(
-                document.getElementById("usd").value
-            ) || 0;
-
-
-        const gmd =
-            usd * rate;
-
-
-        document.getElementById("gmd")
-            .textContent =
-            gmd.toFixed(2);
-    }
-
-
-    /*
-    ==========================================
-    ADMIN LOGIN
-    ==========================================
-    */
-
-    async function login() {
-
-        const email =
-            document.getElementById("email")
-                .value.trim();
-
-
-        const password =
-            document.getElementById("password")
-                .value;
-
-
-        document.getElementById("loginMessage")
-            .textContent =
-            "Logging in...";
-
-
-        const { error } =
-            await sb.auth.signInWithPassword({
-
-                email: email,
-
-                password: password
-
-            });
-
-
-        if (error) {
-
-            document.getElementById("loginMessage")
-                .textContent =
-                "Login failed.";
-
-            return;
-        }
-
-
-        document.getElementById("loginBox")
-            .style.display =
-            "none";
-
-
-        document.getElementById("adminPanel")
-            .style.display =
-            "block";
-
-
-        document.getElementById("loginMessage")
-            .textContent = "";
-
-
-        loadRate();
-    }
-
-
-    /*
-    ==========================================
-    CHANGE RATE
-    ==========================================
-    */
-
-    async function changeRate() {
-
-        const newRate =
-            Number(
-                document.getElementById("newRate").value
-            );
-
-
-        if (!newRate || newRate <= 0) {
-
-            document.getElementById("adminMessage")
-                .textContent =
-                "Please enter a valid rate.";
-
-            return;
-        }
-
-
-        document.getElementById("adminMessage")
-            .textContent =
-            "Updating...";
-
-
-        const { error } =
-            await sb
-                .from("exchange_rates")
-                .update({
-
-                    usd_to_gmd: newRate,
-
-                    updated_at:
-                        new Date().toISOString()
-
-                })
-                .eq("id", 1);
-
-
-        if (error) {
-
-            console.log(error);
-
-            document.getElementById("adminMessage")
-                .textContent =
-                "Update failed. Check your admin permissions.";
-
-            return;
-        }
-
-
-        document.getElementById("adminMessage")
-            .textContent =
-            "Rate updated successfully!";
-
-
-        document.getElementById("newRate")
-            .value = "";
-
-
-        await loadRate();
-    }
-
-
-    /*
-    ==========================================
-    LOGOUT
-    ==========================================
-    */
-
-    async function logout() {
-
-        await sb.auth.signOut();
-
-
-        document.getElementById("adminPanel")
-            .style.display =
-            "none";
-
-
-        document.getElementById("loginBox")
-            .style.display =
-            "block";
-
-
-        document.getElementById("email")
-            .value = "";
-
-
-        document.getElementById("password")
-            .value = "";
-    }
-
-
-    /*
-    ==========================================
-    START
-    ==========================================
-    */
-
-    loadRate();
+// Clear converter
+function clearConverter() {
+  usd.value = "";
+  gmd.value = "";
+  usd.focus();
+}
 
 </script>
 
 </body>
-        </html>
+</html>
+
